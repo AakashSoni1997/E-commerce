@@ -1,47 +1,59 @@
-const ErrorHander=require("../utils/errorhandler")
-const catchAsyncErrors=require("../middleware/catchAsyncError")
-const User=require("../models/userModels")
-const sendToken = require("../utils/jwtToken")
+const ErrorHander = require("../utils/errorhandler");
+const catchAsyncErrors = require("../middleware/catchAsyncError");
+const User = require("../models/userModels");
+const sendToken = require("../utils/jwtToken");
 
+///Register a User
 
-///Register a User 
+exports.registerUser = catchAsyncErrors(async (req, res, next) => {
+  const { name, email, password } = req.body;
+  const user = await User.create({
+    name,
+    email,
+    password,
+    avatar: {
+      public_id: "this is sample id",
+      url: "profilepicUrl",
+    },
+  });
 
-exports.registerUser=catchAsyncErrors( async (req,res,next)=>{
-    const {name,email,password}=req.body 
-    const user= await User.create({
-        name,email,password,
-        avatar:{
-            public_id:"this is sample id",
-            url:"profilepicUrl"
-        }
-    })
-     
-    sendToken(user,201,res)
-})
-
+  sendToken(user, 201, res);
+});
 
 //Login Users
 
-exports.loginUser=catchAsyncErrors(async (req,res,next)=>{
-const {email,password}=req.body;
+exports.loginUser = catchAsyncErrors(async (req, res, next) => {
+  const { email, password } = req.body;
 
+  /// Checking if User has given password and email both
 
-/// Checking if User has given password and email both 
+  if (!email || !password) {
+    return next(new ErrorHander("Please Enter email and password", 400));
+  }
+  const user = await User.findOne({ email }).select("+password");
+  if (!user) {
+    return next(new ErrorHander("Invaild email and password", 401));
+  }
 
-if(!email || !password){
-return next(new ErrorHander("Please Enter email and password",400))
-}
-const user=await User.findOne({email}).select("+password")
-if(!user){
-return  next(new ErrorHander("Invaild email and password",401)) 
-}
+  const isPasswordMatch = user.comparePassword(password);
 
-const isPasswordMatch=user.comparePassword(password)
+  if (!isPasswordMatch) {
+    return next(new ErrorHander("Invaild email and password", 401));
+  }
 
-if(!isPasswordMatch){
-    return  next(new ErrorHander("Invaild email and password",401)) 
-    }
+  sendToken(user, 200, res);
+});
 
-sendToken(user,200,res)
-    
-})
+// Logout User
+
+exports.logout = catchAsyncErrors(async (req, res, next) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Log Out Successfully",
+  });
+});
