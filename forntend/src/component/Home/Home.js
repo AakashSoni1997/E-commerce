@@ -1,18 +1,44 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from "react";
 import { CgMouse } from "react-icons/all";
-import "./Home.css"
+import "./Home.css";
 import ProductCard from "./ProductCard.js";
-import  Metadata  from "../layout/MetaData"
+import MetaData from "../layout/MetaData";
+import { getProduct } from "../../actions/productActon";
+import { useSelector, useDispatch } from "react-redux";
+import Loader from "../layout/loader/Loader";
+import {useAlert} from "react-alert"
+import {clearErrors} from "../../actions/productActon" 
 
 const Home = () => {
-    const products=[10,20,30]
+  const alert=useAlert()
+  const dispatch = useDispatch();
+  const { loading, error, products,  } = useSelector(
+    (state) => state.products
+  );
+
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+
+    dispatch(getProduct());
+  }, [dispatch]);
+
   return (
+    <>
+      {loading ? (
+        <Loader/>
+      ) : (
+        <Fragment>
+          <MetaData title=" ECOMMERCE" />
+          {/* <a  style={{color:"orange", textDecoration:"none",padding:"10px",margin:"10px"}} href="/search">search</a>        
+          <a style={{color:"orange" , textDecoration:"none",padding:"10px",margin:"10px"}} href="/Cart">Cart</a>        
+          <a style={{color:"orange" , textDecoration:"none",padding:"10px",margin:"10px"}} href="/Profile">Profile</a>         */}
 
-<Fragment>
-        <Metadata title=" ECOMMERCE"/>
-
-<div className="banner">
+          <div className="banner">
             <p>Welcome to Ecommerce</p>
+
             <h1>FIND AMAZING PRODUCTS BELOW</h1>
 
             <a href="#container">
@@ -27,13 +53,13 @@ const Home = () => {
           <div className="container" id="container">
             {products &&
               products.map((product) => (
-                <span>hello</span>
-                // <ProductCard key={product._id} product={product} />
+                <ProductCard key={product._id} product={product} />
               ))}
           </div>
-</Fragment>
+        </Fragment>
+      )}
+    </>
+  );
+};
 
-  )
-}
-
-export default Home
+export default Home;
