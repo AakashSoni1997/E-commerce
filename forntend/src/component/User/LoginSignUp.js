@@ -7,7 +7,7 @@ import { useAlert } from "react-alert";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
-import { clearErrors,login, } from "../../actions/userAction";
+import { clearErrors,login, register } from "../../actions/userAction";
 
 const LoginSignUp = ({ history, location }) => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const LoginSignUp = ({ history, location }) => {
   const { name, email, password } = user;
 
   const [avatar, setAvatar] = useState("/Profile.png");
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const [avatarPreview, setAvatarPreview] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png");
 
   const loginSubmit = (e) => {
     console.log("From Submit")
@@ -53,7 +53,7 @@ const LoginSignUp = ({ history, location }) => {
     myForm.set("password", password);
     myForm.set("avatar", avatar);
     console.log("my register Form")
-    // dispatch(register(myForm));
+    dispatch(register(myForm));
   }
 
   const registerDataChange = (e) => {
