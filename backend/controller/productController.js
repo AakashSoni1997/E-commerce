@@ -24,7 +24,7 @@ exports.getAllProduct = catchAsyncError(async (req, res, next) => {
   .filter()
   
   let products = await apifeature.query.clone();
-  console.log(products)
+  // console.log(products)
 
   let filteredProductsCount = products.length;
 

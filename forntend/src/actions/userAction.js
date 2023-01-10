@@ -73,6 +73,7 @@ export const loadUser = () => async (dispatch) => {
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
+    console.log(error,"userAction error")
     dispatch({ type: LOAD_USER_FAIL, payload: error.response.data.message });
   }
 };
@@ -96,7 +97,6 @@ export const updateProfile = (userData) => async (dispatch) => {
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
     const { data } = await axios.put(`http://localhost:5000/api/v1/me/update`, userData, config);
-
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
   } catch (error) {
     dispatch({

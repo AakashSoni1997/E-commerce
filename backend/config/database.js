@@ -1,10 +1,9 @@
 const mongoose=require("mongoose")
-
+const dotenv=require("dotenv")
 
 const EcommerceDb=()=>{
 
-
-    mongoose.connect("mongodb+srv://as1997:as1997@cluster0.tztaukq.mongodb.net/test")
+    mongoose.connect(process.env.MONGODB_URI)
 
     .then(()=>{
         console.log("Server is connected to mongoDB atlas")

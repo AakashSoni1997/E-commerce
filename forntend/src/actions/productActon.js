@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import {
   ALL_PRODUCT_REQUEST,
   ALL_PRODUCT_SUCCESS,
@@ -8,6 +7,9 @@ import {
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
+  NEW_REVIEW_REQUEST,
+  NEW_REVIEW_SUCCESS,
+  NEW_REVIEW_FAIL,
 } from "../constants/productConstant";
 
 // Get All Products
@@ -16,16 +18,20 @@ export const getProduct =
   async (dispatch) => {
     try {
       dispatch({ type: ALL_PRODUCT_REQUEST });
-      let link = `http://localhost:5000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+
+      let link = `http://localhost:5000/api/v1/products`;
       if (category) {
-        link = `http://localhost:5000/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
+        link = `http://localhost:5000/api/v1/products`;
       }
+
       const { data } = await axios.get(link);
+      // console.log(data,"Productttttttttttt")
       dispatch({
         type: ALL_PRODUCT_SUCCESS,
         payload: data,
       });
     } catch (error) {
+      console.log(error,"producterror")
       dispatch({
         type: ALL_PRODUCT_FAIL,
         payload: error.response.data.message,
@@ -39,7 +45,9 @@ export const getProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`http://localhost:5000/api/v1/product/${id}`);
+    const { data } = await axios.get(
+      `http://localhost:5000/api/v1/product/${id}`
+    );
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
@@ -53,9 +61,42 @@ export const getProductDetails = (id) => async (dispatch) => {
   }
 };
 
+// NEW REVIEW
+export const newReview = (reviewData) => async (dispatch) => {
+  try {
+    dispatch({ type: NEW_REVIEW_REQUEST });
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+
+    const { data } = await axios.put(`http://localhost:5000/api/v1/review`, reviewData, config);
+
+    dispatch({
+      type: NEW_REVIEW_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: NEW_REVIEW_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+
+
+
+
+
+
 // Clear Errors
 export const clearErrors = () => async (dispatch) => {
   dispatch({
     type: CLEAR_ERRORS,
   });
 };
+
+
+
+

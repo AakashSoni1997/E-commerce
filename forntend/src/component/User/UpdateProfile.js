@@ -21,7 +21,7 @@ const UpdateProfile = ({history}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState();
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const [avatarPreview, setAvatarPreview] = useState("/Profile.jpg");
 
   const updateProfileSubmit = (e) => {
     e.preventDefault();
@@ -61,7 +61,7 @@ const UpdateProfile = ({history}) => {
     }
 
     if (isUpdated) {
-      console.log(isUpdated,"isUpdated succesfully")
+      console.log(isUpdated,"isUpdatedsuccesfully")
       alert.success("Profile Updated Successfully");
       dispatch(loadUser());
 
@@ -71,7 +71,7 @@ const UpdateProfile = ({history}) => {
         type: UPDATE_PROFILE_RESET,
       });
     }
-  }, [dispatch, error, alert, history, user, isUpdated]);
+  }, []);
   return (
     <Fragment>
     {loading ? (

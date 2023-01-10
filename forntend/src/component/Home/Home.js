@@ -6,15 +6,13 @@ import MetaData from "../layout/MetaData";
 import { getProduct } from "../../actions/productActon";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../layout/loader/Loader";
-import {useAlert} from "react-alert"
-import {clearErrors} from "../../actions/productActon" 
+import { useAlert } from "react-alert";
+import { clearErrors } from "../../actions/productActon";
 
 const Home = () => {
-  const alert=useAlert()
+  const alert = useAlert();
   const dispatch = useDispatch();
-  const { loading, error, products,  } = useSelector(
-    (state) => state.products
-  );
+  const { loading, error, products } = useSelector((state) => state.products);
 
   useEffect(() => {
     if (error) {
@@ -28,13 +26,10 @@ const Home = () => {
   return (
     <>
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : (
         <Fragment>
           <MetaData title=" ECOMMERCE" />
-          {/* <a  style={{color:"orange", textDecoration:"none",padding:"10px",margin:"10px"}} href="/search">search</a>        
-          <a style={{color:"orange" , textDecoration:"none",padding:"10px",margin:"10px"}} href="/Cart">Cart</a>        
-          <a style={{color:"orange" , textDecoration:"none",padding:"10px",margin:"10px"}} href="/Profile">Profile</a>         */}
 
           <div className="banner">
             <p>Welcome to Ecommerce</p>

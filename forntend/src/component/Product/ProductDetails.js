@@ -1,11 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import "./ProductDetails.css";
+import ReviewCard from "./ReviewCard";
 import { useSelector, useDispatch } from "react-redux";
-import MetaData from "../layout/MetaData"
-import Loader from "../layout/loader/Loader"
+import MetaData from "../layout/MetaData";
+import Loader from "../layout/loader/Loader";
 import { useAlert } from "react-alert";
-import  {getProductDetails, clearErrors } from "../../actions/productActon"
+import {
+  getProductDetails,
+  clearErrors,
+  newReview,
+} from "../../actions/productActon";
 import {
   Dialog,
   DialogActions,
@@ -13,20 +18,21 @@ import {
   DialogTitle,
   Button,
 } from "@material-ui/core";
-import { Rating } from "@material-ui/lab"
-import {addItemsToCart} from "../../actions/cartAction"
+import { Rating } from "@material-ui/lab";
+import { addItemsToCart } from "../../actions/cartAction";
+import { NEW_REVIEW_RESET } from "../../constants/productConstant";
 
 const ProductDetails = ({ match }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
 
-  const { product, loading, error } = useSelector( 
+  const { product, loading, error } = useSelector(
     (state) => state.productDetails
   );
 
-  // const { success, error: reviewError } = useSelector(
-  //   (state) => state.newReview
-  // );
+  const { success, error: reviewError } = useSelector(
+    (state) => state.newReview
+  );
 
   const options = {
     size: "large",
@@ -55,7 +61,6 @@ const ProductDetails = ({ match }) => {
   };
 
   const addToCartHandler = () => {
-    // console.log("hello")
     dispatch(addItemsToCart(match.params.id, quantity));
     alert.success("Item Added To Cart");
   };
@@ -71,7 +76,7 @@ const ProductDetails = ({ match }) => {
     myForm.set("comment", comment);
     myForm.set("productId", match.params.id);
 
-    // dispatch(newReview(myForm));
+    dispatch(newReview(myForm));
 
     setOpen(false);
   };
@@ -82,19 +87,17 @@ const ProductDetails = ({ match }) => {
       dispatch(clearErrors());
     }
 
-    // if (reviewError) {
-    //   alert.error(reviewError);
-    //   dispatch(clearErrors());
-    // }
+    if (reviewError) {
+      alert.error(reviewError);
+      dispatch(clearErrors());
+    }
 
-    // if (success) {
-    //   alert.success("Review Submitted Successfully");
-    //   dispatch({ type: NEW_REVIEW_RESET });
-    // }
+    if (success) {
+      alert.success("Review Submitted Successfully");
+      dispatch({ type: NEW_REVIEW_RESET });
+    }
     dispatch(getProductDetails(match.params.id));
-  }, [dispatch, match.params.id, error, alert,
-    //  reviewError, success
-    ]);
+  }, [dispatch, match.params.id, error, alert, reviewError, success]);
 
   return (
     <Fragment>
@@ -201,8 +204,7 @@ const ProductDetails = ({ match }) => {
             <div className="reviews">
               {product.reviews &&
                 product.reviews.map((review) => (
-                  console.log("cart")
-                  // <ReviewCard key={review._id} review={review} />
+                  <ReviewCard key={review._id} review={review} />
                 ))}
             </div>
           ) : (

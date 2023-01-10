@@ -15,7 +15,7 @@ import {
         product: data.product._id,
         name: data.product.name,
         price: data.product.price,
-        image: data.product.images[0].url,
+        // image: data.product.images[0].url,
         stock: data.product.Stock,
         quantity,
       },

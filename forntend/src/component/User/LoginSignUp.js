@@ -32,8 +32,9 @@ const LoginSignUp = ({ history, location }) => {
 
   const { name, email, password } = user;
 
-  const [avatar, setAvatar] = useState("/Profile.png");
-  const [avatarPreview, setAvatarPreview] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png");
+  
+  const [avatar, setAvatar] = useState(`/Profile.jpg`);
+  const [avatarPreview, setAvatarPreview] = useState("/Profile.jpg");
 
   const loginSubmit = (e) => {
     console.log("From Submit")
@@ -62,6 +63,7 @@ const LoginSignUp = ({ history, location }) => {
 
       reader.onload = () => {
         if (reader.readyState === 2) {
+          console.log(reader.result,"avavtar profile")
           setAvatarPreview(reader.result);
           setAvatar(reader.result);
         }
@@ -86,7 +88,8 @@ const LoginSignUp = ({ history, location }) => {
     if (isAuthenticated) {
       history.push(redirect);
     }
-  }, [dispatch, error, alert, history, isAuthenticated, redirect]);
+    localStorage.setItem('dataKey', JSON. stringify(user));
+  }, [dispatch, error, alert, history, isAuthenticated, redirect,user]);
 
 
   const switchTabs = (e, tab) => {
