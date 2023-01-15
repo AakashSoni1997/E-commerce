@@ -9,7 +9,7 @@ const ProtectedRoute = ({ isAdmin, component: Component, ...rest }) => {
     <Fragment>
       {loading === false && (
         <Route
-          {...rest}
+          {...rest} 
           render={(props) => {
             if (isAuthenticated === false) {
               return <Redirect to="/login" />;

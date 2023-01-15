@@ -8,6 +8,8 @@ import "./Profile.css"
 
 const Profile = ({history}) => {
     const { user, loading, isAuthenticated } = useSelector((state) => state.user);
+  console.log("userrrrrrrrrrr",user)
+
 
   useEffect(() => {
     if (isAuthenticated === false) {

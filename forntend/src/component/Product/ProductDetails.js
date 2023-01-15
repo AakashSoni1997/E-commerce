@@ -49,7 +49,7 @@ const ProductDetails = ({ match }) => {
   const increaseQuantity = () => {
     if (product.Stock <= quantity) return;
 
-    const qty = quantity + 1;
+    const qty = quantity + 1; 
     setQuantity(qty);
   };
 
