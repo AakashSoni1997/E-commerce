@@ -28,13 +28,13 @@ import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./component/Cart/OrderSuccess.js";
 import MyOrders from "./component/Order/MyOrders.js";
 import OrderDetails from "./component/Order/OrderDetails.js";
-// import Dashboard from "./component/Admin/Dashboard"
-// import ProductList from "./component/Admin/ProductList.js"
+import Dashboard from "./component/Admin/Dashboard"
+import ProductList from "./component/Admin/ProductList.js"
+import NewProduct from "./component/Admin/NewProduct";
 
 const App = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const [stripeApiKey, setStripeApiKey] = useState("");
-  console.log(user)
 
   async function getStripeApiKey() {
     const { data } = await axios.get(
@@ -107,9 +107,11 @@ const App = () => {
           <ProtectedRoute exact path="/order/:id" component={OrderDetails} />
         </Switch>
 
-        {/* <ProtectedRoute isAdmin={true} exact path="/admin/dashboard" component={Dashboard} />
+        <ProtectedRoute isAdmin={true} exact path="/admin/dashboard" component={Dashboard} />
         <ProtectedRoute isAdmin={true} exact path="/admin/products" component={ProductList} />
- */}
+        <ProtectedRoute isAdmin={true} exact path="/admin/product" component={NewProduct} />
+
+
 
         <Footer />
       </Router>

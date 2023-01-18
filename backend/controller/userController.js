@@ -100,7 +100,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-/// Reset Password
+            /// Reset Password
 exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   //creating token hash
   const resetPasswordToken = crypto

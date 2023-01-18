@@ -16,6 +16,8 @@ dotenv.config({path:"backend/.env"})
 //connecting to database
 EcommerceDb()
 
+
+const PORT=6000
  
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,

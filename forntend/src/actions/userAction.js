@@ -31,14 +31,15 @@ export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
 
-    const config = { headers: { "Content-Type": "application/json" } };
-
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
     const { data } = await axios.post(
       `http://localhost:5000/api/v1/login`,
       { email, password },
       config
     );
-console.log(data,"data")
+    console.log(data, "data");
     dispatch({ type: LOGIN_SUCCESS, payload: data.user });
   } catch (error) {
     dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
@@ -52,8 +53,12 @@ export const register = (userData) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-    const { data } = await axios.post(`http://localhost:5000/api/v1/register`, userData, config);
-    console.log(data.userData ,"userData")
+    const { data } = await axios.post(
+      `http://localhost:5000/api/v1/register`,
+      userData,
+      config
+    );
+    console.log(data.userData, "userData");
 
     dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
   } catch (error) {
@@ -73,7 +78,7 @@ export const loadUser = () => async (dispatch) => {
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
-    console.log(error,"userAction error")
+    console.log(error, "userAction error");
     dispatch({ type: LOAD_USER_FAIL, payload: error.response.data.message });
   }
 };
@@ -96,7 +101,11 @@ export const updateProfile = (userData) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-    const { data } = await axios.put(`http://localhost:5000/api/v1/me/update`, userData, config);
+    const { data } = await axios.put(
+      `http://localhost:5000/api/v1/me/update`,
+      userData,
+      config
+    );
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
   } catch (error) {
     dispatch({
@@ -135,7 +144,11 @@ export const forgotPassword = (email) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.post(`http://localhost:5000/api/v1/password/forgot`, email, config);
+    const { data } = await axios.post(
+      `http://localhost:5000/api/v1/password/forgot`,
+      email,
+      config
+    );
 
     dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.message });
   } catch (error) {
@@ -145,7 +158,6 @@ export const forgotPassword = (email) => async (dispatch) => {
     });
   }
 };
-
 
 // Reset Password
 export const resetPassword = (token, passwords) => async (dispatch) => {
@@ -168,7 +180,6 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
     });
   }
 };
-
 
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
